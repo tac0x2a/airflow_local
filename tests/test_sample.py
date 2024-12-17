@@ -1,6 +1,4 @@
-import pytest
 from airflow.models import DagBag
-import pprint
 
 
 class TestDag:
@@ -11,15 +9,8 @@ class TestDag:
 
         assert dagbag.import_errors == {}
         assert dag is not None
-
         assert dag.catchup is False
 
-        # assert dag.doc_md != ""
-
-        # print(type(dag))
-        # print(vars(dag))
-
-        # tasks = dag.tasks
-        # task_ids = list(map(lambda task: task.task_id, tasks))
-        # print(f"tasks: {task_ids}")
-        pass
+        expected = ["hello_task", "world_task"]
+        actual = sorted([task.task_id for task in dag.tasks])
+        assert actual == expected

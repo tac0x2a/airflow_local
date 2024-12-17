@@ -1,4 +1,4 @@
-from airflow import DAG
+from airflow import DAG, XComArg
 from airflow.decorators import task
 
 with DAG(
@@ -8,7 +8,11 @@ with DAG(
 ) as dag:
 
     @task
-    def hello_task():
+    def hello_task() -> str:
         return "Hello,Task"
 
-    hello_task()
+    @task
+    def world_task(h: XComArg):
+        return f"{h}, World"
+
+    world_task(hello_task())
